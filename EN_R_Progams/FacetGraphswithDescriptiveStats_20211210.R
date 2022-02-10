@@ -8,7 +8,7 @@ library(knitr)
 
 getwd()
 #setwd() Set the working directory to find your file or go to File ---> Import Dataset
-setwd("H:/My Drive/02EnvirExchNetwkGrant/ENGrantDueProducts/Data_R")
+setwd("C:/enter/the/path/here")
 prep <- read_csv("Pump5_January.csv",
                 col_names = TRUE, #Describe each columns data type
                 cols(
@@ -20,8 +20,6 @@ prep <- read_csv("Pump5_January.csv",
                 amp = col_double()
          ))
 
-#colnames(prep)[colnames(prep)=="05"] <- "Pump5"
-
 prep$Pump <- str_replace(prep$Pump, "p", "Pump ") #Renaming the "p" to Pump to help label the graph better
 
 
@@ -31,7 +29,7 @@ glimpse(prep)
 
 prepdata <- prep %>%
         
-        group_by(Week,Pump) %>% #First group the data by week of year and then by PumpID
+        group_by(Week,Pump) %>% #First group the data by week of year and then by PumpID, you dont need to group by two variables
                 dplyr::summarise(N = n(), #specifies that dplyr package should be used, otherwise computer gets confused.
                 sum = sum(gpd),
                 mean = mean(gpd),
@@ -48,9 +46,7 @@ kable(prepdata[,c(1,2,4)], digits=0, caption="Dosing Pump Flows for January 2017
 
 prepdata2 <- prepdata
 
-     #levels(prepdata2$Pump) <- c("Pump 5", "Pump 6")
-
-#Create a graph with 
+#Create a graph with ggplot2
 
 lg <- ggplot(prepdata2,aes(x=Week,y=mean))+
                 geom_hline(yintercept=0, colour="#A1A1A1")+
@@ -67,7 +63,7 @@ lg <- ggplot(prepdata2,aes(x=Week,y=mean))+
                 labs(x="January", y="Average Gallons per Day")
 lg
 
-#Load "mytheme" for my defined graph preferences
+#Load "mytheme" for defined graph preferences
 
 mytheme <- theme_bw(base_size = 18, base_family = "")+theme(
      #Panel
