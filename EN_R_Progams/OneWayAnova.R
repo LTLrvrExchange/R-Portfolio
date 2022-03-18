@@ -15,7 +15,9 @@ library (tibble)
 
 # Read in data set
 getwd()
-#setwd("C)
+
+#setwd() Set the working directory to find your file or go to File ---> Import Dataset
+#setwd("C:/set/your/directorytodatafolder/here")
 
 
 kndata <- read_csv("Kneitel_2010_Algea.csv",
@@ -78,9 +80,6 @@ summary(model)
 tukeyout <- TukeyHSD(model, conf.level=.95)
 cat("\nTukey method:\n")
 tukeyout
-
-print(confint(tukeyout))
-print(cld(tukeyout))
 
 plot(TukeyHSD(model, conf.level=.95), las = 2)
 
