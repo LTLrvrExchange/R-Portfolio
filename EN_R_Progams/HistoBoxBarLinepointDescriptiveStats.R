@@ -16,7 +16,8 @@ library(knitr)
 library(lubridate)
 
 getwd()
-setwd("H:/My Drive/02EnvirExchNetwkGrant/ENGrantDueProducts/EN_R_DataSources")
+#setwd() Set the working directory to find your file or go to File ---> Import Dataset
+setwd("C:/enter/the/path/here")
 
 
 prep<-read.csv (file ="SoilN.csv",
