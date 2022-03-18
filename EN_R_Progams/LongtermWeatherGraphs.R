@@ -8,7 +8,9 @@ library(tidyverse)
 library(lubridate)
 
 getwd()
-#setwd()
+#setwd() Set the working directory to find your file or go to File ---> Import Dataset
+setwd("C:/enter/the/path/here")
+
 prep<- read.csv (file ="bvlweather.csv",
                header = TRUE, 
                sep = ",")
@@ -135,13 +137,6 @@ ggplot(soton.df, aes(Month, Max.Temp)) + geom_boxplot() +
     opts(title = "Temperature at Southampton Weather Station (1950-1999)")
 
 
-#Create zoo Timeseries of same data
-#airz <- zoo(prep$atmp, Rdate)
-#precipz <- zoo(prep$precip, Rdate)
-#stmpz <- zoo(prep$stmp4, Rdate)
-#solrz <- zoo(prep$solr, Rdate)
-
-
 #Get monthly means with xts
 
 lg <- ggplot(prepdata2,aes(x=time,y=mean, fill=ttt, group=ttt))+
@@ -162,175 +157,3 @@ lg <- ggplot(prepdata2,aes(x=time,y=mean, fill=ttt, group=ttt))+
 
 lg + facet_grid(ntype ~., scales="free_y")+mytheme 
 
-names(airm)
-
-plot(airm)
-p <- ggplot(airx, aes(x=Rdate, y=V1))
-p + geom_line()
-
-
-plot1<- ts(airm, rep(NA, 365)),
-start=2013-01-01, end=2013-12-31)
-                 
-    
-drunkenness <- ts(c(3875, 4846, 5128, 5773, 7327,
-                    6688, 5582, 3473, 3186,
-                    rep(NA, 51)),
-                  start=1912, end=1971)
-
-plot1 <- xyplot(spots ~ monthNames, xlab="", type="l",
-                  main="Average Yearly Sunspots",
-                  scales=list(x=list(alternating=2)))
-> plot2 <- xyplot(spots ~ 1749:1983, xlab="Year", type="l")
-> print(plot1, position=c(0, 0.2, 1, 1), more=TRUE)
-> print(plot2, position=c(0, 0, 1, 0.33))
-
-plot1 <-ggplot(airz
-     + layer(stat = "summary",
-                   geom = "line",
-                   fill = "black",
-                   linetype = 3,
-                   size = 0.25,
-                   colour = "antiquewhite",
-                   alpha = 0.2, 
-                   fun.data = mean)
-     
-     +layer(stat = "summary",
-                  geom = "ribbon",
-                  fill = "black",
-                  linetype = 3,
-                  size = 0.25,
-                  colour = "antiquewhite",
-                  alpha = 0.2, 
-                  fun.data = sd
-          )) 
-)
-
-plot(airz, type = "b", xaxt = "n", xlab = "")
-monthNames <- months(ISOdate(2013,  1:12, 1))
-axis(1, at = 1:12, labels = monthNames, las = 2)
-
-
-
-
-
-#Make sure new data format is there. Boom!
-
-
-
-
-names(air)
-
-
-Rdate2 <- strptime(as.character(rain$dat), "%m/%d/%Y")
-class(Rdate2)
-rain <- data.frame(rain, Rdate2)
-rain
-
-
-#Plot
-airt2 <- ggplot(data = airm,
-     mapping = aes(x = Rdate, y = atmean))
-     iqr <- function(x, ...) {
-     qs <- quantile(as.numeric(x), probs = c(0.25, 0.75), na.rm = TRUE)
-     names(qs) <- c("ymin","ymax")
-     qs
-     }
-     airt2 + layer(stat = "summary",
-     geom = "ribbon",
-     fill = "black",
-     linetype = 3,
-     size = 0.25,
-     colour = "antiquewhite",
-     alpha = 0.2, 
-     fun.data = iqr
-     ) +
-     
-     layer(stat = "summary",
-     geom = "line",
-     col = "black",
-     size = 0.5, 
-     fun.y = mean
-     )+
-
-bars<- ggplot(data = rain, aes(Rdate2=X, rain=Y, fill=group, width=0.8) ) +
-     geom_errorbar(aes(ymin=Y, ymax=Y+error, width = 0.2), position=position_dodge(width=0.8)) +
-     geom_bar(stat="identity", position=position_dodge(width=0.8)) +
-     geom_bar(stat="identity", position=position_dodge(width=0.8), colour="black", show_guide=FALSE)
-+
-     scale_fill_manual(values=c("grey70", "white")) +
-     scale_x_discrete("X", limits=c(1:12)) +
-     scale_y_continuous("Y (units)", expand=c(0,0), limits = c(0, 40), breaks=seq(0, 40, by=5)) + ggtitle ("My nice plot") +
-     theme_bw() +
-     theme( plot.title = element_text(face="bold", size=14),
-            axis.title.x = element_text(face="bold", size=12),
-            axis.title.y = element_text(face="bold", size=12, angle=90),
-            panel.grid.major = element_blank(),
-            panel.grid.minor = element_blank(),
-            axis.text.y=element_text(angle=90, hjust=0.5),
-            legend.title = element_blank(),
-            legend.position = c(0.85,0.85),
-            legend.key.size = unit(1.5, "lines"),
-            legend.key = element_rect()
-     )
-    
-
-data = rain,
-                mapping = aes(x = Rdate, fill=rain$precip))
-    
-colour = factor(Rdate), fill = factor(Rdate)), 
-linetype = 2, alpha= 0.1)
-
-               
-
-plot <- qplot(Rdate, mean(atmean), data = air, geom = "line") +
-     ylab("Air Temperature") +
-     geom_line(xintercept=0, colour="gray50")
-plot
-plot + scale_x_date(major = "weeks")
-
-
-
-)
-
-# lesion becomes a classifying factor
-
-f3 <- y +  scale_x_continuous("Date)") +
-     scale_y_continuous("Precipitation(mm)") +
-     scale_shape_manual(values=c(79,79)) +
-     scale_fill_manual(values=c("white","black")) +
-     stat_abline(intercept=0, slope=0, linetype="dotted") +
-     annotate("text", x=11, y=10, label="X") +
-     theme_bw()
-
-optns <- theme (
-     plot.title = element_text(face="bold", size=14),
-     axis.title.x = element_text(face="bold", size=12),
-     axis.title.y = element_text(face="bold", size=12, angle=90),
-     panel.grid.major = element_blank(),
-     panel.grid.minor = element_blank(),
-     legend.position = c(0.2,0.8),
-     legend.title = element_blank(),
-     legend.text = element_text(size=12),
-     legend.key.size = unit(1.5, "lines"),
-     legend.key = element_blank()
-)
-f3 +  ggtitle ( "MY awsome plot for publication") + optns
-
-
-#####################################
-#junk?
-myd <- data.frame (X = c(1:12,1:12),
-                   Y = c(8, 12, 13, 18,  22, 16, 24, 29,  34, 15, 8, 6,
-                         9, 10, 12, 18, 26, 28, 28, 30, 20, 10, 9, 9),
-                   group = rep (c("A-group", "B-group"), each = 12),
-                   error = rep (c(2.5, 3.0), each = 12))
-
-#Convert factor or character string into date, and supply format
-Rdate <- strptime(as.character(air$date), "%m/%d/%Y")
-#Check conversion, should be POSIXt
-class(Rdate)
-#Add formated date back to dataframe.  Boom!
-air <- data.frame(air, Rdate)
-#Make sure new data format is there. Boom!
-names(air)
