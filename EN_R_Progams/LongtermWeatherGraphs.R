@@ -9,7 +9,7 @@ library(knitr)
 
 getwd()
 #setwd() Set the working directory to find your file or go to File ---> Import Dataset
-setwd("H:/My Drive/02EnvirExchNetwkGrant/ENGrantDueProducts/EN_R_DataSources")
+#setwd("C:/set/directory/forDataFolder/here")
 
 prep<- read.csv (file ="bvlweather.csv",
                  header = TRUE, 
