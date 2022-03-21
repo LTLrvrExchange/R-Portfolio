@@ -1,8 +1,7 @@
+#This program was obtain during a Tribal Date & Technology Academy, "Intro to Exploring and Visualizing Data with R, held online 11/16-11/182021.
+#Note USGS stream gauge data does not appear to be standardized. Therefore, check your data and correct column headers.
+
 library(tidyverse)
-# # specifically, we'll use these packages from tidyverse:
-# library(dplyr)
-# library(tidyr)
-# library(ggplot2)
 library(dataRetrieval)
 library(knitr)
 library(lubridate)
