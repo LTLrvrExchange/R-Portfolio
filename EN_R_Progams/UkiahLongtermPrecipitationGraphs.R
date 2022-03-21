@@ -5,13 +5,15 @@
 
 sessionInfo()
 library(ggplot2)
+library(xts)
 library(tidyverse)
 library(lubridate)
 library(knitr)
 #library(psych)
 
 getwd()
-setwd("H:/My Drive/02EnvirExchNetwkGrant/ENGrantDueProducts/EN_R_DataSources")
+
+#setwd("C:/Set/youdirectory/here")
 prep<- read.csv (file ="UkiahWeatherData.csv",
                header = TRUE, 
                sep = ",")
@@ -128,7 +130,7 @@ prep2 %>%
 
 prep2021 <- as_tibble(prepsave)
 
-prep2021 <- prep2021[prep2021$DATE >= "2012-10-01" & prep2021$DATE <= "2021-09-30", ]
+prep2021 <- prep2021[prep2021$DATE >= "2020-10-01" & prep2021$DATE <= "2021-09-30", ]
 
 prep2021 <- prep2021 %>%
 
@@ -143,6 +145,7 @@ glimpse(prep2021)
   combined_data <- left_join(prep2, prep2021, by = "month_number") %>%
     rename("Oct 2020 - Sept 2021" = "Precip",
            "Mean Precip: 1903-2020" = "Precip_mm") %>%
+    
     pivot_longer(cols = c("Oct 2020 - Sept 2021", "Mean Precip: 1903-2020"),
                  names_to = "Parameter",
                  values_to = "Value")
@@ -165,55 +168,33 @@ monthly <- data.frame(monthly, Month)
 
 kable(monthly[,c(4,2,3)], digits=1, caption="Means by month")
 
-
-### Add Theme for Visualizations
-mytheme <- theme_bw(base_size = 18, base_family = "")+theme(
-  #Panel
-  panel.grid.major = element_line(colour = "#E5E5E5"),
-  panel.grid.minor = element_line(colour = "#E5E5E5"),
-  panel.background = element_rect(fill = NA),
-  panel.border = element_rect(colour = "#ADADAD", fill = NA, size=1),
-  #Text and Axis
-  axis.title.x = element_text(colour="black", face="bold", size=16),
-  axis.text.x = element_text(colour="black", size=12),
-  axis.title.y = element_text(colour="black", size=16, face="bold",
-                              lineheight = 1.2, angle = 90),
-  axis.text.y = element_text(colour="black", size=12),
-  plot.title = element_text(colour="black", size=18, face="bold"),
-  axis.line = element_line(colour="#A1A1A1", size=1),
-  #Legend
-  legend.title = element_text(colour="black", size=16, face="bold"))
-
 #Create a Continuous Line Graph with Ribbon
 
-PrecipLine <- ggplot(data = combined_data, aes(month_number, Value, color = Parameter)) +
-  #geom_line()+ 
-  geom_smooth(size =0.7, span = 0.75, se = FALSE)+ #smoothed for presentation purposes
+PrecipLine <- ggplot(data = combined_data, aes(month_number, Value)) +
+  geom_smooth(size =1.5, colour = "black", span = 0.75, se = FALSE, aes(linetype = Parameter))+ #smoothed for presentation purposes
+  scale_linetype_manual(values = c("twodash", "solid"))+
   scale_x_continuous(breaks=c(1,4,8,12), 
-               labels=c("October","January","May","September"))+
-               xlab("Month")+
-               ylab("Precipitation (mm)")
+                labels=c("October","January","May","September"))+
+                ggtitle("The Last Century's Precipitation compared to 2021")+             
+                xlab("Month")+
+                ylab("Precipitation (mm)")
   
-PrecipLine + aes(group=rev(Parameter)) + mytheme
+PrecipLine + aes(group=rev(Parameter)) + theme_bw()
 
 
 
-PrecipBar <-ggplot(combined_data,aes(x=month_number, y=Value, fill=Parameter))+
+PrecipBar <-ggplot(combined_data,aes(x=month_number, y=Value, fill = Parameter))+
   geom_bar(position="dodge", stat="identity", colour="black")+
   #geom_errorbar(aes(ymin=mean-se, ymax=mean+se),
                 #width=.2, position=position_dodge(0.9))+
+  #geom_smooth(method = "loess", size =1.5, colour = "black", span = 0.75, se = FALSE, aes(linetype = Parameter))+
+  scale_fill_manual(values=c("black","grey"))+
   scale_x_continuous(breaks=c(1,2,3,4,5,6,7,8,9,10,11,12), 
-                   labels=c("Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept"))+
+                  
+                  labels=c("Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept"))+
                    xlab("Month")+
                    ylab("Precipitation (mm)")
-  
-  
-  #xlab("Interval (Weeks)")+
  
-# ylab("Ammonium - N" ~ ("mg N L"^-1)~"\n")+
-  #scale_fill_grey(start=.5, end=1,
-                 # labels=c("Fall","Spring"),
-                  #guide_legend(title="Treatment"))
+PrecipBar + theme_bw()
 
-PrecipBar + mytheme
 
